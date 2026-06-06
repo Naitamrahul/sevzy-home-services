@@ -14,6 +14,7 @@ import BookingTracker from './components/BookingTracker';
 import FAQ from './components/FAQ';
 import Footer from './components/Footer';
 import Chatbot from './components/Chatbot';
+import { images } from './assets/images/data';
 
 export default function App() {
   const [activeSection, setActiveSection] = useState<'home' | 'booking' | 'tracker'>('home');
@@ -159,7 +160,7 @@ export default function App() {
                   {/* Maid Image as requested: Custom generated asset */}
                   <div className="relative rounded-[36.5px] overflow-hidden border-4 border-white shadow-2xl">
                     <img 
-                      src="src/assets/images/hero_img.png" 
+                      src={images.hero} 
                       alt="Smiling professional house cleaning lady wearing Sevzy uniform" 
                       className="w-full h-auto object-cover hover:scale-101 transition-transform duration-500"
                       referrerPolicy="no-referrer"
