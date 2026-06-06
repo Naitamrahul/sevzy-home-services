@@ -93,7 +93,7 @@ export default function Footer({ onNavigate }: FooterProps) {
               <li><button onClick={() => onNavigate('home')} className="hover:text-brand-pink transition-colors">Home Page</button></li>
               <li><button onClick={() => onNavigate('booking')} className="hover:text-brand-pink transition-colors">Pricing Configurator</button></li>
               <li><button onClick={() => onNavigate('tracker')} className="hover:text-brand-pink transition-colors">Live Active Tracker</button></li>
-              <li><a href="tel:+1800555SEVZY" className="hover:text-brand-pink transition-colors">Call Support Dispatch</a></li>
+              <li><a href="tel:+91 7028997855" className="hover:text-brand-pink transition-colors">Call Support Dispatch</a></li>
             </ul>
           </div>
 
@@ -103,7 +103,7 @@ export default function Footer({ onNavigate }: FooterProps) {
             <p className="text-sm text-gray-400 leading-relaxed mb-1">
               Sevzy HQ Inc.<br />
               945 Broadway Avenue<br />
-              New York, NY 10011
+              Nagpur, 440001, India
             </p>
             <p className="text-xs text-brand-pink font-bold">
               Mon - Sun: 7:00 AM - 10:00 PM

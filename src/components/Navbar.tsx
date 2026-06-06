@@ -119,13 +119,13 @@ export default function Navbar({ onNavigate, activeSection }: NavbarProps) {
             
             <div className="pt-4 border-t border-gray-100 space-y-4">
               <a 
-                href="tel:+1800555SEVZY" 
+                href="tel:+91 7028997855" 
                 className="flex items-center space-x-3 text-base font-bold text-gray-700 px-4"
               >
                 <div className="p-2.5 bg-brand-violet-light rounded-full text-brand-violet">
                   <IconPhone className="w-5 h-5" />
                 </div>
-                <span>+1 (800) 555-SEVZY</span>
+                <span>+91 7028997855</span>
               </a>
               
               <button
