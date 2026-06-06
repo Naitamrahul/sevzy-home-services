@@ -62,7 +62,7 @@ export const SERVICE_ADDONS: ServiceAddon[] = [
 export const TOP_MAIDS: Maid[] = [
   {
     id: 'maid-1',
-    name: 'Elena Rostova',
+    name: 'Amisha Patel',
     rating: 4.95,
     completedJobs: 421,
     specialty: 'Deep Cleaning & Organization',
@@ -72,7 +72,7 @@ export const TOP_MAIDS: Maid[] = [
   },
   {
     id: 'maid-2',
-    name: 'Marcus Vance',
+    name: 'Rakhi Sharma',
     rating: 4.92,
     completedJobs: 312,
     specialty: 'Moving & Cabinet Detailing',
@@ -82,7 +82,7 @@ export const TOP_MAIDS: Maid[] = [
   },
   {
     id: 'maid-3',
-    name: 'Clara Jenkins',
+    name: 'Avanti Kambale',
     rating: 4.98,
     completedJobs: 580,
     specialty: 'Eco-Friendly & Pet Homes',
@@ -105,7 +105,7 @@ export const CUSTOMER_TESTIMONIALS: Testimonial[] = [
   },
   {
     id: 'test-2',
-    name: 'James Henderson',
+    name: 'Raj Kumar',
     role: 'Product Designer',
     rating: 5,
     text: 'The booking interface is ridiculously smooth. I selected bedrooms, deep cleaning, and inside fridge add-ons, and was confirmed in under 20 seconds. Absolutely beautiful experience and spotless results.',
@@ -115,7 +115,7 @@ export const CUSTOMER_TESTIMONIALS: Testimonial[] = [
   },
   {
     id: 'test-3',
-    name: 'Beatrice Vance',
+    name: 'Rani Kumar',
     role: 'Working Mom of 3',
     rating: 5,
     text: 'Weekly recurring cleans with Clara has changed our household completely. It feels amazing to come home and have everything perfectly organized using safe, non-toxic products. Well worth every penny.',

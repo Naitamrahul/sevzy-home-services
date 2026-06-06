@@ -112,7 +112,7 @@ export default function Footer({ onNavigate }: FooterProps) {
         </div>
 
         <div className="border-t border-gray-800/80 mt-12 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-medium">
-          <p>© 2026 Sevzy Home Services. Inspired by Pronto app. All rights reserved.</p>
+          <p>© 2026 Sevzy Home Services. Develop by Robocode.AI Tech Lab. All rights reserved.</p>
           <p className="flex items-center gap-1 text-gray-500">
             <span>Crafted with</span>
             <Heart className="w-3.5 h-3.5 text-brand-pink fill-brand-pink" />
