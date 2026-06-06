@@ -1,0 +1,6 @@
+{
+  "name": "Sevzy Home Services",
+  "description": "Premium online maid and cleaning services. Book professional cleaners instantly with an interactive pricing engine, service customizer, and service tracking.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
