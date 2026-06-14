@@ -3,57 +3,140 @@ import {
   Sparkles, CalendarRange, Star, ArrowRight, Heart, Shield, CheckCircle, 
   MapPin, ShieldAlert, BadgeInfo, Layers3, Smile, Check, Plus, Minus
 } from 'lucide-react';
-import { BookingDetails } from './types';
+import { BookingDetails, Maid } from './types';
 import { TOP_MAIDS, CUSTOMER_TESTIMONIALS } from './data/mockData';
+
+const WhatsAppIcon = ({ className = "w-4 h-4" }: { className?: string }) => (
+  <svg viewBox="0 0 24 24" className={className} fill="currentColor">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.746.953 3.71 1.458 5.706 1.458h.008c6.56 0 11.902-5.336 11.905-11.893a11.821 11.821 0 00-3.48-8.413z" />
+  </svg>
+);
 
 // Subcomponents
 import Navbar from './components/Navbar';
 import BeforeAfterSlider from './components/BeforeAfterSlider';
-import BookingForm from './components/BookingForm';
-import BookingTracker from './components/BookingTracker';
+import QuickBookingModal from './components/QuickBookingModal';
 import FAQ from './components/FAQ';
 import Footer from './components/Footer';
 import Chatbot from './components/Chatbot';
-import { images } from './assets/images/data';
+import ServicePage, { SnabbitServiceId } from './components/ServicePage';
+import AboutPage from './components/AboutPage';
+
+// Prepopulate past and active schedules for high-fidelity admin statistics out of the box
+const INITIAL_BOOKINGS: BookingDetails[] = [
+  {
+    id: 'SEV-481920',
+    clientName: 'Shyam Pawar',
+    email: '',
+    phone: '',
+    address: '24 , Khapri , Near Mihar SEZ, Nagpur',
+    notes: 'Please double-sanitize door handles and remote controllers.',
+    bedrooms: 2,
+    bathrooms: 1,
+    serviceType: 'standard',
+    frequency: 'weekly',
+    addons: ['eco'],
+    date: 'Last Wednesday',
+    timeSlot: '08:00 AM',
+    basePrice: 110,
+    addonPrice: 15,
+    discount: 25,
+    fee: 5,
+    finalPrice: 105,
+    status: 'completed',
+    assignedMaidId: 'maid-1',
+    createdAt: new Date(Date.now() - 7 * 24 * 3600 * 1000).toISOString()
+  },
+  {
+    id: 'SEV-901827',
+    clientName: 'Akshara Patel',
+    email: '',
+    phone: '',
+    address: '112 , Chichbhawan, Nagpur',
+    notes: 'Elena did an incredible job last time. Please assign her again!',
+    bedrooms: 2,
+    bathrooms: 2,
+    serviceType: 'standard',
+    frequency: 'one-time',
+    addons: [],
+    date: 'Yesterday',
+    timeSlot: '12:00 PM',
+    basePrice: 130,
+    addonPrice: 0,
+    discount: 0,
+    fee: 6,
+    finalPrice: 136,
+    status: 'completed',
+    assignedMaidId: 'maid-1',
+    createdAt: new Date(Date.now() - 24 * 3600 * 1000).toISOString()
+  },
+  {
+    id: 'SEV-331093',
+    clientName: 'Someshwar Shende',
+    email: '',
+    phone: '',
+    address: '400, New Manishnagar, Nagpur',
+    notes: 'First time using Sevzy. Looking forward to standard clean + inside fridge!',
+    bedrooms: 1,
+    bathrooms: 1,
+    serviceType: 'deep',
+    frequency: 'monthly',
+    addons: ['fridge'],
+    date: 'Tomorrow',
+    timeSlot: '09:00 AM',
+    basePrice: 140,
+    addonPrice: 35,
+    discount: 17,
+    fee: 8,
+    finalPrice: 166,
+    status: 'confirmed',
+    assignedMaidId: 'maid-2',
+    createdAt: new Date().toISOString()
+  }
+];
 
 export default function App() {
-  const [activeSection, setActiveSection] = useState<'home' | 'booking' | 'tracker'>('home');
-  const [currentBooking, setCurrentBooking] = useState<BookingDetails | null>(null);
+  const [activeSection, setActiveSection] = useState<'home' | 'services' | 'about' | 'faq'>('home');
+  const [selectedServiceId, setSelectedServiceId] = useState<SnabbitServiceId>('dishwashing');
   
+  // Real-time systems state pools
+  const [allMaids, setAllMaids] = useState<Maid[]>(TOP_MAIDS);
+
+  // Modal State Trigger
+  const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
+  const [bookingPrefillService, setBookingPrefillService] = useState<string>('standard');
+
   // Hero direct quote bedroom preset
   const [heroBedrooms, setHeroBedrooms] = useState<number>(2);
 
   // Dynamic Service Focus tab inside index page
   const [activeCatalogTab, setActiveCatalogTab] = useState<'standard' | 'deep' | 'movein' | 'airbnb'>('standard');
 
-  const handleBookingComplete = (booking: BookingDetails) => {
-    setCurrentBooking(booking);
-    setActiveSection('tracker');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+  const handleOpenBooking = (serviceId?: string) => {
+    setBookingPrefillService(serviceId || 'standard');
+    setIsBookingModalOpen(true);
   };
 
-  const handleCancelBooking = () => {
-    setCurrentBooking(null);
-    setActiveSection('booking');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  const handleNavigate = (section: 'home' | 'booking' | 'tracker') => {
+  const handleNavigate = (section: 'home' | 'services' | 'about' | 'faq') => {
     setActiveSection(section);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   // Launch pre-calculated booking from hero
   const handleHeroQuoteTrigger = () => {
-    setActiveSection('booking');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    handleOpenBooking('standard');
   };
 
   // Custom Quick Book for specific Maid
   const handleQuickBookMaid = (maidId: string) => {
-    setActiveSection('booking');
-    // We could pre-assign inside state or let booking form handle it
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    const assignedMaid = allMaids.find(m => m.id === maidId);
+    const specialtyMapping: Record<string, string> = {
+      'Dishes & Kitchen': 'dishwashing',
+      'Bathrooms & Tiles': 'bathroom',
+      'Laundry & Bedding': 'laundry'
+    };
+    const prefill = assignedMaid ? (specialtyMapping[assignedMaid.specialty] || 'standard') : 'standard';
+    handleOpenBooking(prefill);
   };
 
   return (
@@ -64,7 +147,12 @@ export default function App() {
       <div className="absolute top-[120vh] left-0 w-[30vw] h-[30vw] rounded-full bg-brand-pink/5 filter blur-3xl pointer-events-none -z-10" />
 
       {/* Navbar header */}
-      <Navbar onNavigate={handleNavigate} activeSection={activeSection} />
+      <Navbar 
+        onNavigate={handleNavigate} 
+        activeSection={activeSection} 
+        onSelectService={(serviceId) => setSelectedServiceId(serviceId)} 
+        onOpenBooking={() => handleOpenBooking('standard')}
+      />
 
       {/* Main Body */}
       <main className="flex-grow">
@@ -96,51 +184,7 @@ export default function App() {
                   </p>
 
                   {/* Immediate Bedroom Selector Calculator trigger - Cloned from pronto */}
-                  <div className="bg-white border border-gray-100 rounded-3xl p-5 shadow-xl max-w-lg mx-auto lg:mx-0" id="hero-booking-quickstart">
-                    <div className="flex flex-col sm:flex-row items-center gap-4">
-                      
-                      {/* Bed/Bath Fast selector */}
-                      <div className="flex-1 w-full text-left">
-                        <span className="block text-[10px] text-gray-400 font-bold uppercase tracking-widest pl-1 mb-1">
-                          How many Bedrooms?
-                        </span>
-                        
-                        <div className="flex items-center justify-between bg-gray-50 hover:bg-gray-100/60 border border-gray-200 rounded-2xl p-2.5 transition-colors">
-                          <button
-                            type="button"
-                            onClick={() => setHeroBedrooms(Math.max(1, heroBedrooms - 1))}
-                            className="w-8 h-8 rounded-lg bg-white border border-gray-200 text-gray-600 hover:text-brand-violet flex items-center justify-center font-bold"
-                          >
-                            <Minus className="w-3.5 h-3.5" />
-                          </button>
-                          
-                          <span className="font-display font-extrabold text-gray-900 text-sm">
-                            {heroBedrooms} Bedroom{heroBedrooms !== 1 && 's'}
-                          </span>
-                          
-                          <button
-                            type="button"
-                            onClick={() => setHeroBedrooms(Math.min(8, heroBedrooms + 1))}
-                            className="w-8 h-8 rounded-lg bg-white border border-gray-200 text-gray-600 hover:text-brand-violet flex items-center justify-center font-bold"
-                          >
-                            <Plus className="w-3.5 h-3.5" />
-                          </button>
-                        </div>
-                      </div>
-
-                      {/* Launch direct calculation quote button */}
-                      <div className="w-full sm:w-auto pt-4 sm:pt-0 align-bottom self-end">
-                        <button
-                          onClick={handleHeroQuoteTrigger}
-                          className="w-full sm:w-auto px-6 py-4.5 bg-gradient-to-r from-brand-violet to-brand-pink hover:from-brand-violet-dark hover:to-brand-pink-dark text-white rounded-2xl font-black text-sm shadow-md shadow-brand-violet/20 flex items-center justify-center gap-2 transform hover:-translate-y-0.5 transition-all cursor-pointer"
-                        >
-                          <span>Get Free Quote</span>
-                          <ArrowRight className="w-4 h-4" />
-                        </button>
-                      </div>
-
-                    </div>
-                  </div>
+                  
 
                   {/* Tiny Trust icons strip */}
                   <div className="flex items-center justify-center lg:justify-start gap-4 text-xs font-semibold text-gray-500 pt-2" id="hero-trust-bullets">
@@ -160,7 +204,7 @@ export default function App() {
                   {/* Maid Image as requested: Custom generated asset */}
                   <div className="relative rounded-[36.5px] overflow-hidden border-4 border-white shadow-2xl">
                     <img 
-                      src={images.hero} 
+                      src="/src/assets/images/hero_img.png" 
                       alt="Smiling professional house cleaning lady wearing Sevzy uniform" 
                       className="w-full h-auto object-cover hover:scale-101 transition-transform duration-500"
                       referrerPolicy="no-referrer"
@@ -186,7 +230,7 @@ export default function App() {
                   {/* Small decorative details */}
                   <div className="absolute -bottom-4 right-4 bg-white border border-gray-100 rounded-2xl px-3 py-1.5 shadow-md flex items-center gap-1.5 text-[10px] font-bold text-gray-500">
                     <MapPin className="w-3.5 h-3.5 text-brand-violet" />
-                    <span>Serving NY Capital region</span>
+                    <span>Serving Nagpur All region</span>
                   </div>
                 </div>
 
@@ -233,8 +277,7 @@ export default function App() {
                 {[
                   { id: 'standard', label: 'Standard Maintenance Clean' },
                   { id: 'deep', label: 'Deep Intensive Scrub' },
-                  { id: 'movein', label: 'Move In / Out Sparkle' },
-                  { id: 'airbnb', label: 'Airbnb Express Turnover' }
+                  { id: 'movein', label: 'Move In / Out Sparkle' }
                 ].map((tab) => (
                   <button
                     key={tab.id}
@@ -260,14 +303,14 @@ export default function App() {
                       {activeCatalogTab === 'standard' && 'Everyday Pristine Maintenance'}
                       {activeCatalogTab === 'deep' && 'Intense Sanitizing & Descaling'}
                       {activeCatalogTab === 'movein' && 'Seamless Deposit-Back Sparkle'}
-                      {activeCatalogTab === 'airbnb' && 'Fast Track Guest Readiness'}
+                     
                     </h4>
                     
                     <p className="text-gray-500 text-xs sm:text-sm leading-relaxed mt-3 mb-6">
                       {activeCatalogTab === 'standard' && 'Our team sweeps, vacuums, scrubs sinks, dusts furniture, sanitizes toilets, and makes standard bed sheet replacements. Perfect to maintain weekly hygiene.'}
                       {activeCatalogTab === 'deep' && 'Highly suggested if your home has had no professional servicing in 2+ months. Includes descaling tile grout lines, removing carbon grease in stoves, ceiling vent dusting, and doors sanitation.'}
                       {activeCatalogTab === 'movein' && 'Empty properties custom detailing tailored to land 100% of tenant security deposits. Covers deep-cleans inside wardrobes, cabinets, appliances, baseboards, and window panes.'}
-                      {activeCatalogTab === 'airbnb' && 'Designed specifically for host turnaround. Cleaners sanitize kitchen cabinets, wipe down fridge interior walls, wash linen loads, sanitize sheets, and reset guest amenities.'}
+                      
                     </p>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3" id="checklist-bullets-grid">
@@ -309,11 +352,11 @@ export default function App() {
 
                     <div className="mt-8 flex gap-3">
                       <button 
-                        onClick={() => setActiveSection('booking')}
-                        className="bg-brand-violet hover:bg-brand-violet-dark text-white font-black text-xs px-5 py-3.5 rounded-xl shadow-md transition-all cursor-pointer flex items-center gap-1"
+                        onClick={() => handleOpenBooking(activeCatalogTab)}
+                        className="bg-[#25D366] hover:bg-[#20ba5a] text-white font-black text-xs px-5 py-3.5 rounded-xl shadow-md transition-all cursor-pointer flex items-center gap-1.5"
                       >
-                        <span>Calculate Rate Quote</span>
-                        <ArrowRight className="w-3.5 h-3.5" />
+                        <WhatsAppIcon className="w-4 h-4 text-white" />
+                        <span>Book Package on WhatsApp</span>
                       </button>
                     </div>
                   </div>
@@ -358,7 +401,7 @@ export default function App() {
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                {TOP_MAIDS.map((maid) => (
+                {allMaids.map((maid) => (
                   <div key={maid.id} className="bg-white border border-gray-100 rounded-3xl p-6 shadow-xl flex flex-col justify-between" id={`maid-portfolio-${maid.id}`}>
                     <div>
                       {/* Avatar & Ratings info */}
@@ -457,91 +500,54 @@ export default function App() {
         )}
 
 
-        {/* VIEW 2: COMPREHENSIVE BOOKING SYSTEM */}
-        {activeSection === 'booking' && (
-          <div className="animate-fadeIn" id="applet-booking-wizard-wrapper">
-            <BookingForm 
-              onBookingComplete={handleBookingComplete} 
-              initialBedrooms={heroBedrooms} 
+        {/* VIEW Snabbit: DETAILED SERVICES EXPERTS PAGES */}
+        {activeSection === 'services' && (
+          <div className="animate-fadeIn" id="applet-services-snabbit-wrapper">
+            <ServicePage 
+              initialServiceId={selectedServiceId}
+              maids={allMaids}
+              onNavigate={handleNavigate}
+              onOpenBooking={(prefillInfo) => {
+                handleOpenBooking(prefillInfo?.serviceType || 'standard');
+              }}
             />
           </div>
         )}
 
+        {/* VIEW: ABOUT US DETAIL PANEL */}
+        {activeSection === 'about' && (
+          <div className="animate-fadeIn" id="applet-about-wrapper">
+            <AboutPage 
+              onNavigate={handleNavigate}
+              onOpenBooking={() => handleOpenBooking('standard')}
+            />
+          </div>
+        )}
 
-        {/* VIEW 3: LIVE ACTIVE TRACKER VIEW */}
-        {activeSection === 'tracker' && (
-          <div className="animate-fadeIn" id="applet-booking-tracker-wrapper">
-            {currentBooking ? (
-              <BookingTracker 
-                booking={currentBooking} 
-                onCancelBooking={handleCancelBooking} 
-              />
-            ) : (
-              // Empty tracker placeholder
-              <div className="max-w-xl mx-auto px-4 py-20 text-center" id="empty-tracker-panel">
-                <div className="bg-brand-violet-light/50 border border-brand-violet/10 w-20 h-20 rounded-3xl flex items-center justify-center mx-auto mb-6">
-                  <ShieldAlert className="w-10 h-10 text-brand-violet animate-bounce" />
-                </div>
-                <h3 className="font-display text-2xl font-extrabold text-gray-900">
-                  No Active Bookings Detected
-                </h3>
-                <p className="text-gray-500 text-sm mt-2 max-w-sm mx-auto">
-                  To view live tracker timelines, GPS car positions, cleaning checklists, or messaging with maids, please book a service first!
-                </p>
-                
-                <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
-                  <button
-                    onClick={() => setActiveSection('booking')}
-                    className="px-6 py-3.5 bg-gradient-to-r from-brand-violet to-brand-pink text-white font-bold text-sm rounded-xl shadow-md cursor-pointer"
-                  >
-                    Load Pricing Calculator Now
-                  </button>
-                  
-                  {/* Instantly simulate a mock booking to test track features directly! */}
-                  <button
-                    onClick={() => {
-                      const sampleBooking: BookingDetails = {
-                        id: 'SEV-SIM-927382',
-                        clientName: 'Rahul Patel',
-                        email: 'rahulnaitam1992@gmail.com',
-                        phone: '555-019-2834',
-                        address: '112 Fifth Ave, New York, NY-10003',
-                        notes: 'Simulated playground quote.',
-                        bedrooms: 2,
-                        bathrooms: 2,
-                        serviceType: 'standard',
-                        frequency: 'weekly',
-                        addons: ['fridge', 'eco'],
-                        date: 'Tomorrow',
-                        timeSlot: '09:00 AM',
-                        basePrice: 130,
-                        addonPrice: 50,
-                        discount: 36,
-                        fee: 8,
-                        finalPrice: 152,
-                        status: 'pending',
-                        assignedMaidId: 'maid-1',
-                        createdAt: new Date().toISOString()
-                      };
-                      setCurrentBooking(sampleBooking);
-                    }}
-                    className="px-6 py-3.5 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold text-sm rounded-xl transition-all"
-                  >
-                    Trigger Simulated Playground
-                  </button>
-                </div>
-              </div>
-            )}
+        {/* VIEW: FAQ HELP PANEL */}
+        {activeSection === 'faq' && (
+          <div className="animate-fadeIn" id="applet-faq-wrapper">
+            <FAQ 
+              onNavigate={handleNavigate}
+              onOpenBooking={() => handleOpenBooking('standard')}
+            />
           </div>
         )}
 
       </main>
 
       {/* Footer layout */}
-      <Footer onNavigate={handleNavigate} />
+      <Footer onNavigate={handleNavigate} onOpenBooking={() => handleOpenBooking('standard')} />
 
       {/* Floating support AI chat */}
-      <Chatbot onOpenBooking={() => setActiveSection('booking')} />
+      <Chatbot onOpenBooking={() => handleOpenBooking('standard')} />
+
+      {/* Quick Booking Popup Modal */}
+      <QuickBookingModal 
+        isOpen={isBookingModalOpen}
+        onClose={() => setIsBookingModalOpen(false)}
+        prefillServiceId={bookingPrefillService}
+      />
 
     </div>
   );

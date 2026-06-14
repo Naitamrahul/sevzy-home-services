@@ -1,4 +1,10 @@
 import { ServiceAddon, Maid, FAQItem, Testimonial } from '../types';
+import maid1Image from '../assets/images/maid_1.jpg';
+import maid2Image from '../assets/images/maid_2.jpg';
+import maid3Image from '../assets/images/maid_3.jpg';
+import menImage1 from '../assets/images/men_1.jpg'
+import menImage2 from '../assets/images/men_2.jpg'
+import womenImage from '../assets/images/tech_consultant.jpg'
 
 export const SERVICE_ADDONS: ServiceAddon[] = [
   {
@@ -62,31 +68,31 @@ export const SERVICE_ADDONS: ServiceAddon[] = [
 export const TOP_MAIDS: Maid[] = [
   {
     id: 'maid-1',
-    name: 'Amisha Patel',
+    name: 'Archana shende',
     rating: 4.95,
     completedJobs: 421,
     specialty: 'Deep Cleaning & Organization',
-    avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=200&h=200',
+    avatar: maid1Image,
     bio: 'With over 4 years of experience, Elena is legendary for transforming messy apartments into pristine sanctuaries. She specializes in detailed bedroom organization and premium kitchen deep cleans.',
     reviewsCount: 198
   },
   {
     id: 'maid-2',
-    name: 'Rakhi Sharma',
+    name: 'Kalpna Nagdeve',
     rating: 4.92,
     completedJobs: 312,
     specialty: 'Moving & Cabinet Detailing',
-    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200&h=200',
+    avatar: maid2Image,
     bio: 'Marcus takes immense pride in moving-in/out cleanings. He ensures that every hidden corner is scrubbed and polished so you get 100% of your deposit back without any stress.',
     reviewsCount: 145
   },
   {
     id: 'maid-3',
-    name: 'Avanti Kambale',
+    name: 'Pratima Sahare',
     rating: 4.98,
     completedJobs: 580,
     specialty: 'Eco-Friendly & Pet Homes',
-    avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=200&h=200',
+    avatar: maid3Image,
     bio: 'An absolute animal lover, Clara excels at meticulous pet hair extraction and using child-safe organic disinfectants so your furry friends stay happy and safe.',
     reviewsCount: 264
   }
@@ -95,31 +101,31 @@ export const TOP_MAIDS: Maid[] = [
 export const CUSTOMER_TESTIMONIALS: Testimonial[] = [
   {
     id: 'test-1',
-    name: 'Sophia Patel',
+    name: 'Shyam Verma',
     role: 'Tech Consultant',
     rating: 5,
-    text: 'Sevzy is literally the Pronto of maid services! I booked a standard clean and Elena arrived exactly on time. My kitchen has never sparkled like this. The live tracking gives absolute peace of mind.',
-    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=120&h=120',
+    text: 'Sevzy is  maid services! I booked a standard clean and Archana arrived exactly on time. My kitchen has never sparkled like this. The live tracking gives absolute peace of mind.',
+    avatar: menImage1,
     isVerified: true,
     serviceType: 'Standard Clean'
   },
   {
     id: 'test-2',
-    name: 'Raj Kumar',
+    name: 'Nikita Samarth',
     role: 'Product Designer',
     rating: 5,
     text: 'The booking interface is ridiculously smooth. I selected bedrooms, deep cleaning, and inside fridge add-ons, and was confirmed in under 20 seconds. Absolutely beautiful experience and spotless results.',
-    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=120&h=120',
+    avatar: womenImage,
     isVerified: true,
     serviceType: 'Deep Clean'
   },
   {
     id: 'test-3',
-    name: 'Rani Kumar',
+    name: 'Dayanand Methe',
     role: 'Working Mom of 3',
     rating: 5,
     text: 'Weekly recurring cleans with Clara has changed our household completely. It feels amazing to come home and have everything perfectly organized using safe, non-toxic products. Well worth every penny.',
-    avatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&q=80&w=120&h=120',
+    avatar: menImage2,
     isVerified: true,
     serviceType: 'Weekly Cleaning'
   }

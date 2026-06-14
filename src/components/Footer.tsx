@@ -1,10 +1,11 @@
 import { Sparkles, Heart, Shield, Award, CheckCircle } from 'lucide-react';
 
 interface FooterProps {
-  onNavigate: (section: 'home' | 'booking' | 'tracker') => void;
+  onNavigate: (section: 'home' | 'services' | 'about' | 'faq') => void;
+  onOpenBooking: () => void;
 }
 
-export default function Footer({ onNavigate }: FooterProps) {
+export default function Footer({ onNavigate, onOpenBooking }: FooterProps) {
   return (
     <footer className="bg-gray-900 text-gray-400 font-sans border-t-4 border-brand-violet/20" id="page-footer">
       
@@ -67,7 +68,7 @@ export default function Footer({ onNavigate }: FooterProps) {
               </span>
             </div>
             <p className="text-sm leading-relaxed text-gray-400 max-w-sm">
-              Sevzy is the ultimate premium maid dispatch clone, engineered in high contrast violet & pink. We curate professional, vetted cleaners to offer same-day sanitization and spotless living comfort.
+              Sevzy is India's first on-demand home services platform. Empowering urban households with reliable, verified female help.
             </p>
             <div className="flex items-center gap-2.5 pt-2" id="footer-badges">
               <span className="text-[9px] bg-gray-800 text-gray-300 px-3 py-1.5 rounded-lg border border-gray-700 font-extrabold tracking-wider uppercase">Vetted #1 Maid Platform</span>
@@ -78,22 +79,24 @@ export default function Footer({ onNavigate }: FooterProps) {
           {/* Core Categories */}
           <div className="md:col-span-3">
             <h4 className="text-white text-xs font-black tracking-widest uppercase mb-4">Cleaning Packages</h4>
-            <ul className="space-y-2 text-sm text-gray-400 font-medium">
-              <li><button onClick={() => onNavigate('booking')} className="hover:text-brand-pink transition-colors">Standard Maintenance Clean</button></li>
-              <li><button onClick={() => onNavigate('booking')} className="hover:text-brand-pink transition-colors">Deep Scrub sanitization</button></li>
-              <li><button onClick={() => onNavigate('booking')} className="hover:text-brand-pink transition-colors">Moving In/Out Sparkle</button></li>
-              <li><button onClick={() => onNavigate('booking')} className="hover:text-brand-pink transition-colors">Airbnb Turnaround Express</button></li>
+            <ul className="space-y-2 text-sm text-gray-400 font-medium pt-1">
+              <li><button onClick={onOpenBooking} className="hover:text-brand-pink transition-colors text-left">Standard Maintenance Clean</button></li>
+              <li><button onClick={onOpenBooking} className="hover:text-brand-pink transition-colors text-left">Deep Scrub sanitization</button></li>
+              <li><button onClick={onOpenBooking} className="hover:text-brand-pink transition-colors text-left">Moving In/Out Sparkle</button></li>
+              <li><button onClick={onOpenBooking} className="hover:text-brand-pink transition-colors text-left">Airbnb Turnaround Express</button></li>
             </ul>
           </div>
 
           {/* Quick Shortcuts */}
           <div className="md:col-span-2">
             <h4 className="text-white text-xs font-black tracking-widest uppercase mb-4">Quick Navigation</h4>
-            <ul className="space-y-2 text-sm text-gray-400 font-medium col-span-1">
-              <li><button onClick={() => onNavigate('home')} className="hover:text-brand-pink transition-colors">Home Page</button></li>
-              <li><button onClick={() => onNavigate('booking')} className="hover:text-brand-pink transition-colors">Pricing Configurator</button></li>
-              <li><button onClick={() => onNavigate('tracker')} className="hover:text-brand-pink transition-colors">Live Active Tracker</button></li>
-              <li><a href="tel:+91 7028997855" className="hover:text-brand-pink transition-colors">Call Support Dispatch</a></li>
+            <ul className="space-y-2 text-sm text-gray-400 font-medium col-span-1 pt-1">
+              <li><button onClick={() => onNavigate('home')} className="hover:text-brand-pink transition-colors text-left font-semibold">Home Page</button></li>
+              <li><button onClick={() => onNavigate('services')} className="hover:text-brand-pink transition-colors text-left font-semibold">All Services</button></li>
+              <li><button onClick={() => onNavigate('about')} className="hover:text-brand-pink transition-colors text-left font-bold">About Us</button></li>
+              <li><button onClick={() => onNavigate('faq')} className="hover:text-brand-pink transition-colors text-left font-bold">FAQ</button></li>
+              <li><button onClick={onOpenBooking} className="hover:text-brand-pink transition-colors text-left font-bold">Book on WhatsApp</button></li>
+              <li><a href="tel:+917028997855" className="hover:text-brand-pink transition-colors">Call Support Dispatch</a></li>
             </ul>
           </div>
 
@@ -102,8 +105,8 @@ export default function Footer({ onNavigate }: FooterProps) {
             <h4 className="text-white text-xs font-black tracking-widest uppercase mb-4">Dispatch Office</h4>
             <p className="text-sm text-gray-400 leading-relaxed mb-1">
               Sevzy HQ Inc.<br />
-              945 Broadway Avenue<br />
-              Nagpur, 440001, India
+              945 Manewada<br />
+              Nagpur, MH 440024
             </p>
             <p className="text-xs text-brand-pink font-bold">
               Mon - Sun: 7:00 AM - 10:00 PM
@@ -112,7 +115,7 @@ export default function Footer({ onNavigate }: FooterProps) {
         </div>
 
         <div className="border-t border-gray-800/80 mt-12 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-medium">
-          <p>© 2026 Sevzy Home Services. Develop by Robocode.AI Tech Lab. All rights reserved.</p>
+          <p>© 2026 Sevzy Home Services. All rights reserved.Made by Robocode.AI Tech Lab. Website: www.robocodelab.com</p>
           <p className="flex items-center gap-1 text-gray-500">
             <span>Crafted with</span>
             <Heart className="w-3.5 h-3.5 text-brand-pink fill-brand-pink" />
